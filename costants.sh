@@ -1,0 +1,20 @@
+# max cap to test
+
+CPU_PERCENTAGE_CAP="Value"
+RAM_PERCENTAGE_CAP="Value"
+DISK_PERCENTAGE_CAP="Value"
+TEMP_PERCENTAGE_CAP="Value"
+
+# time threshold in seconds to test
+
+CPU_CHECK_TIMEFRAME="Value"
+RAM_CHECK_TIMEFRAME="Value"
+DISK_CHECK_TIMEFRAME="Value"
+TEMP_CHECK_TIMEFRAME="Value"
+
+# number of times to test
+
+CPU_CHECK_COUNTER="Value"
+RAM_CHECK_COUNTER="Value"
+DISK_CHECK_COUNTER="Value"
+TEMP_CHECK_COUNTER="Value"
