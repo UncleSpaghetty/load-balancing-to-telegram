@@ -44,7 +44,8 @@ while true; do
         if [ $ramcount -lt $RAM_CHECK_COUNTER ]; then
             ram_tmp_time=$ram_end_time
         else
-            echo -e "TELEGRAM\nMESSAGE"
+            TEXT="~~~~Warning~~~~ Server name: $SERVER_NAME"
+            curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
             TEXT="~~~~RAM usage is over $RAM_PERCENTAGE_CAP%~~~~ RAM average: $ram_tmp_average%"
             curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
             let "ram_last_count=0"

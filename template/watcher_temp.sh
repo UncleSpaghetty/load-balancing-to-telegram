@@ -53,7 +53,8 @@ while true; do
         if [ $temp_tmp_count -lt $TEMP_CHECK_COUNTER ]; then
             temp_tmp_time=$temp_end_time
         else
-            echo -e "TELEGRAM\nMESSAGE"
+            TEXT="~~~~Warning~~~~ Server name: $SERVER_NAME"
+            curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
             TEXT="~~~~Temperature is over $TEMP_PERCENTAGE_CAP~~~~ Temperature average: $temp_tmp_average°C"
             curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
             let "temp_last_count=0"

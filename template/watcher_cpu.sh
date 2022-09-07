@@ -75,7 +75,8 @@ while true; do
             let "last_count=$count"
             let "tmp_time=$end_time"
         else
-            echo -e "TELEGRAM\nMESSAGE"
+            TEXT="~~~~Warning~~~~ Server name: $SERVER_NAME"
+            curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
             TEXT="~~~~CPU usage is over $CPU_PERCENTAGE_CAP%~~~~ CPU average: $tmp_average%"
             curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
             let "last_count=0"
