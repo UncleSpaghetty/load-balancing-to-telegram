@@ -95,9 +95,11 @@ while true; do
             let "last_count=$count"
             let "tmp_time=$end_time"
         else
-            TEXT="~~~~Warning~~~~ Server name: $SERVER_NAME"
-            curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
-            TEXT="~~~~CPU usage is over $CPU_PERCENTAGE_CAP%~~~~ CPU average: $tmp_average%"
+            TEXT="~~~~Warning~~~~
+Server name: $SERVER_NAME
+~~~~~~~~~~~~~~
+CPU usage is over $CPU_PERCENTAGE_CAP%
+CPU average: $tmp_average%"
             curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
             let "last_count=0"
         fi
@@ -148,9 +150,11 @@ while true; do
         if [ $ramcount -lt $RAM_CHECK_COUNTER ]; then
             ram_tmp_time=$ram_end_time
         else
-            TEXT="~~~~Warning~~~~ Server name: $SERVER_NAME"
-            curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
-            TEXT="~~~~RAM usage is over $RAM_PERCENTAGE_CAP%~~~~ RAM average: $ram_tmp_average%"
+            TEXT="~~~~Warning~~~~
+Server name: $SERVER_NAME
+~~~~~~~~~~~~~~
+RAM_usage_is_over_$RAM_PERCENTAGE_CAP%
+RAM average:$ram_tmp_average%"
             curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
             let "ram_last_count=0"
             let "ramcount=$ram_last_count"
@@ -207,9 +211,11 @@ while true; do
         if [ $diskcount -lt $DISK_CHECK_COUNTER ]; then
             disk_tmp_time=$disk_end_time
         else
-            TEXT="~~~~Warning~~~~ Server name: $SERVER_NAME"
-            curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
-            TEXT="~~~~DISK usage is over $DISK_PERCENTAGE_CAP%~~~~ DISK average: $disk_tmp_average%"
+            TEXT="~~~~Warning~~~~
+Server name: $SERVER_NAME
+~~~~~~~~~~~~~~
+DISK_usage_is_over_DISK_PERCENTAGE_CAP%
+DISK_average:$disk_tmp_average%"
             curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
             let "disk_last_count=0"
             let "disk_tmp_total=0"
@@ -270,9 +276,11 @@ while true; do
         if [ $temp_tmp_count -lt $TEMP_CHECK_COUNTER ]; then
             temp_tmp_time=$temp_end_time
         else
-            TEXT="~~~~Warning~~~~ Server name: $SERVER_NAME"
-            curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
-            TEXT="~~~~Temperature is over $TEMP_PERCENTAGE_CAP~~~~ Temperature average: $temp_tmp_average°C"
+           TEXT="~~~~Warning~~~~
+Server name: $SERVER_NAME
+~~~~~~~~~~~~~~
+Temperature is over $TEMP_PERCENTAGE_CAP
+Temperature average: $temp_tmp_average°C"
             curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
             let "temp_last_count=0"
             let "temp_tmp_total=0"
