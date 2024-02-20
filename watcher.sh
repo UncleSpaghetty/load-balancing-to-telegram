@@ -100,7 +100,7 @@ Server name: $SERVER_NAME
 ~~~~~~~~~~~~~~
 CPU usage is over $CPU_PERCENTAGE_CAP%
 CPU average: $tmp_average%"
-            curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
+            python3 ./main.py $BOT_TOKEN $CHANNEL_ID "$TEXT"
             let "last_count=0"
         fi
     fi
@@ -155,7 +155,7 @@ Server name: $SERVER_NAME
 ~~~~~~~~~~~~~~
 RAM_usage_is_over_$RAM_PERCENTAGE_CAP%
 RAM average:$ram_tmp_average%"
-            curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
+            python3 ./main.py $BOT_TOKEN $CHANNEL_ID "$TEXT"
             let "ram_last_count=0"
             let "ramcount=$ram_last_count"
             let "ram_tmp_total=0"
@@ -216,7 +216,7 @@ Server name: $SERVER_NAME
 ~~~~~~~~~~~~~~
 DISK_usage_is_over_DISK_PERCENTAGE_CAP%
 DISK_average:$disk_tmp_average%"
-            curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
+            python3 ./main.py $BOT_TOKEN $CHANNEL_ID "$TEXT"
             let "disk_last_count=0"
             let "disk_tmp_total=0"
             let "diskcount=$disk_last_count"
@@ -281,7 +281,7 @@ Server name: $SERVER_NAME
 ~~~~~~~~~~~~~~
 Temperature is over $TEMP_PERCENTAGE_CAP
 Temperature average: $temp_tmp_average°C"
-            curl "https://api.telegram.org/bot$BOT_TOKEN/sendMessage?chat_id=$CHANNEL_ID&text=$TEXT"
+            python3 ./main.py $BOT_TOKEN $CHANNEL_ID "$TEXT"
             let "temp_last_count=0"
             let "temp_tmp_total=0"
             let "temp_tmp_count=$temp_last_count"
