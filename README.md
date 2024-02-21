@@ -28,6 +28,10 @@ export CHANNEL_ID="channel_id"
 
 To launch the script in the background, you can use the following command:
 
+`./run-watcher.sh`
+
+or
+
 ```bash
 nohup ./watcher.sh >/dev/null 2>&1 & 
 ```
