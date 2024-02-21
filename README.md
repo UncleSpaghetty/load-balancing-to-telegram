@@ -1,12 +1,38 @@
 # Load Balancing to Telegram
 
+## Before running __watcher.sh__, you must install the requirements for the disk usage test
+
+### The disk usage test runs with iostat, so you must install sysstat before running __watcher.sh__
+```bash
+sudo apt install sysstat
+```
+
+### The temperature usage test is currently under maintenance
+
+## Create a venv and install requests with pip to run python script for the api call
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install requests
+```
+
 ## Before running __watcher.sh__, you must set BOT_TOKEN and CHANNEL_ID in __tokens.sh__.
 
 ```bash
-BOT_TOKEN="YourBOTToken"
-CHANNEL_ID="channel_id"
+export BOT_TOKEN="YourBOTToken"
+export CHANNEL_ID="channel_id"
 ```
 
+## Usage
+
+To launch the script in the background, you can use the following command:
+
+```bash
+nohup ./watcher.sh >/dev/null 2>&1 & 
+```
+
+## Configuration
 Within the ***costants.sh*** file you can change the cap on the values for CPU, RAM, DISK and TEMPERATURE:
 
 ```bash
@@ -56,3 +82,5 @@ With this command you can send a message to the group/user.
 ```bash
 curl https://api.telegram.org/botBOT_TOKENsendMessage?chat_id=CHANNEL_ID&text=TEXT
 ```
+
+If you want to get sender channel id and you're using a private account or bot, you can forward message to Json Dump bot [link](https://t.me/JsonDumpBot) and take id from response json

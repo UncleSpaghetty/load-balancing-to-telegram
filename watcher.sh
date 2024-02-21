@@ -9,7 +9,7 @@ ram_last_count=0
 disk_last_count=0
 temp_last_count=0
 
-. ./tokens.sh
+source ./tokens.sh
 
 # echo -e "Bot token: $BOT_TOKEN\nChannel id: $CHANNEL_ID"
 
@@ -24,6 +24,15 @@ while true; do
 
     time=$(date -d "now")
     echo -e "Time: $time"
+
+    # if time is 8 or 20 send a message to the channel to notify that the watcher is running
+    if [ $(date +%H%M%S) == "080000" ] || [ $(date +%H%M%S) == "200000" ]; then
+        INFO="~~~~Info~~~~
+Server name: $SERVER_NAME
+~~~~~~~~~~~~~~
+Watcher is running"
+        python3 ./main.py $BOT_TOKEN $CHANNEL_ID "$INFO"
+    fi
 
     ##############################################################################
     #    CPU CHECK
@@ -227,67 +236,67 @@ DISK_average:$disk_tmp_average%"
     # Reset disk average
     diskave=0
 
-    ##############################################################################
-    #    TEMPERATURE CHECK
-    ##############################################################################
+    # ##############################################################################
+    # #    TEMPERATURE CHECK
+    # ##############################################################################
 
-    # total temperature in celsius
-    templist=$(cat /sys/class/thermal/thermal_zone*/temp)
+    # # total temperature in celsius
+    # templist=$(cat /sys/class/thermal/thermal_zone*/temp)
     
-    for temp in $templist; do
-        temp=${temp::-3}
-        temptotal=$(($temptotal+$temp))
-        tempcount=$(cat /sys/class/thermal/thermal_zone*/temp | wc -l)
-        tempaverage=$(($temptotal/$tempcount))
-    done
+    # for temp in $templist; do
+    #     temp=${temp::-3}
+    #     temptotal=$(($temptotal+$temp))
+    #     tempcount=$(cat /sys/class/thermal/thermal_zone*/temp | wc -l)
+    #     tempaverage=$(($temptotal/$tempcount))
+    # done
 
-    temptotal=0
-    echo -e "Temperature: $tempaverage°C\n"
+    # temptotal=0
+    # echo -e "Temperature: $tempaverage°C\n"
 
-    temp_tmp_count=0
+    # temp_tmp_count=0
 
-    temp_now_time=$(date -d "now" +%s)    # +%s turns time to epoch
-    temp_end_time=$temp_now_time
+    # temp_now_time=$(date -d "now" +%s)    # +%s turns time to epoch
+    # temp_end_time=$temp_now_time
 
-    # SETUP TEMP TIMEFRAME
-    let "temp_end_time=$temp_now_time+$TEMP_CHECK_TIMEFRAME"
+    # # SETUP TEMP TIMEFRAME
+    # let "temp_end_time=$temp_now_time+$TEMP_CHECK_TIMEFRAME"
 
-    # check if the last count is greater than 0
-    # so we can use the last timeframe
-    if [ $temp_last_count -gt 0 ]; then
-        temp_end_time="$temp_tmp_time"
-    fi
+    # # check if the last count is greater than 0
+    # # so we can use the last timeframe
+    # if [ $temp_last_count -gt 0 ]; then
+    #     temp_end_time="$temp_tmp_time"
+    # fi
 
-    if [ $temp_now_time -ge $temp_end_time ]; then
-        # echo "TEMP Time expired code:1"
-        let "temp_last_count=0"
-        let "temp_tmp_total=0"
-        let "temp_end_time=$temp_now_time+$TEMP_CHECK_TIMEFRAME"
-    fi
+    # if [ $temp_now_time -ge $temp_end_time ]; then
+    #     # echo "TEMP Time expired code:1"
+    #     let "temp_last_count=0"
+    #     let "temp_tmp_total=0"
+    #     let "temp_end_time=$temp_now_time+$TEMP_CHECK_TIMEFRAME"
+    # fi
 
-    if [ $tempaverage -gt $TEMP_PERCENTAGE_CAP ]; then
-        let "temp_tmp_count=$temp_last_count+1"
-        let "temp_start_time=$(date -d "now" +%s)"
-        # echo -e "tempcount: $temp_tmp_count\ntemp last count: $temp_last_count"
+    # if [ $tempaverage -gt $TEMP_PERCENTAGE_CAP ]; then
+    #     let "temp_tmp_count=$temp_last_count+1"
+    #     let "temp_start_time=$(date -d "now" +%s)"
+    #     # echo -e "tempcount: $temp_tmp_count\ntemp last count: $temp_last_count"
         
-        temp_tmp_value=$tempaverage
-        let "temp_tmp_total=$temp_tmp_total+$temp_tmp_value"
-        let "temp_tmp_average=$temp_tmp_total/$temp_tmp_count"
-        if [ $temp_tmp_count -lt $TEMP_CHECK_COUNTER ]; then
-            temp_tmp_time=$temp_end_time
-        else
-           TEXT="~~~~Warning~~~~
-Server name: $SERVER_NAME
-~~~~~~~~~~~~~~
-Temperature is over $TEMP_PERCENTAGE_CAP
-Temperature average: $temp_tmp_average°C"
-            python3 ./main.py $BOT_TOKEN $CHANNEL_ID "$TEXT"
-            let "temp_last_count=0"
-            let "temp_tmp_total=0"
-            let "temp_tmp_count=$temp_last_count"
-        fi
-        let "temp_last_count=$temp_tmp_count"
-    fi
+    #     temp_tmp_value=$tempaverage
+    #     let "temp_tmp_total=$temp_tmp_total+$temp_tmp_value"
+    #     let "temp_tmp_average=$temp_tmp_total/$temp_tmp_count"
+    #     if [ $temp_tmp_count -lt $TEMP_CHECK_COUNTER ]; then
+    #         temp_tmp_time=$temp_end_time
+    #     else
+    #        TEXT="~~~~Warning~~~~
+#Server name: $SERVER_NAME
+#~~~~~~~~~~~~~~
+#Temperature is over $TEMP_PERCENTAGE_CAP
+#Temperature average: $temp_tmp_average°C"
+    #         python3 ./main.py $BOT_TOKEN $CHANNEL_ID "$TEXT"
+    #         let "temp_last_count=0"
+    #         let "temp_tmp_total=0"
+    #         let "temp_tmp_count=$temp_last_count"
+    #     fi
+    #     let "temp_last_count=$temp_tmp_count"
+    # fi
 
     # Wait before checking again.
     sleep 1

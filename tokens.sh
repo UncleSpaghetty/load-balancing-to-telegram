@@ -1,2 +1,2 @@
-BOT_TOKEN=<YourBOTToken>
-CHANNEL_ID=<channel_id>
+export BOT_TOKEN=<YourBOTToken>
+export CHANNEL_ID=<channel_id>
