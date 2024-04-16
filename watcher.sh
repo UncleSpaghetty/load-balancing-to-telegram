@@ -20,13 +20,16 @@ echo "RAM CAP: $RAM_PERCENTAGE_CAP%"
 echo "DISK CAP: $DISK_PERCENTAGE_CAP%"
 echo "TEMP CAP: $TEMP_PERCENTAGE_CAP%"
 
+TZ=Europe/Rome date
+
 while true; do
 
-    time=$(date -d "now")
+    # Get current time with timezone
+    time=$(TZ=Europe/Rome date +%H%M%S)
     echo -e "Time: $time"
 
-    # if time is 8 or 20 send a message to the channel to notify that the watcher is running
-    if [ $(date +%H%M%S) == "080000" ] || [ $(date +%H%M%S) == "200000" ]; then
+    # if time is 9 AM or PM in Europe/Rome timezone send a message to the channel to notify that the watcher is running
+    if [ $time == "090000" ] || [ $time == "210000" ]; then
         INFO="~~~~Info~~~~
 Server name: $SERVER_NAME
 ~~~~~~~~~~~~~~
@@ -69,7 +72,7 @@ Watcher is running"
     if [ $now_time -ge $end_time ]; then
         echo "Time expired 1"
         let "last_count=0"
-        let "tmp_total=0"
+        # let "tmp_total=0"
     fi
 
     # echo -e "Count: $last_count\nStart time: $now_time\nEnd time: $end_time"
@@ -81,8 +84,8 @@ Watcher is running"
         let "start_time=$(date -d "now" +%s)"
 
         tmp_value=$DIFF_USAGE
-        let "tmp_total=$tmp_total+$tmp_value"
-        let "tmp_average=$tmp_total/$count"
+        # let "tmp_total=$tmp_total+$tmp_value"
+        # let "tmp_average=$tmp_total/$count"
 
         #CHECK IF IT IS THE FIRST CYCLE
         if [ $count -gt 1 ]; then
@@ -97,7 +100,7 @@ Watcher is running"
             if [ $start_time -ge $end_time ]; then
                 # echo "Time expired"
                 let "last_count=0"
-                let "tmp_total=0"
+                # let "tmp_total=0"
             fi
 
             # echo -e "cpu grater than $CPU_PERCENTAGE_CAP\nCounter: $count"
@@ -108,7 +111,7 @@ Watcher is running"
 Server name: $SERVER_NAME
 ~~~~~~~~~~~~~~
 CPU usage is over $CPU_PERCENTAGE_CAP%
-CPU average: $tmp_average%"
+CPU average: $tmp_value%"
             python3 ./main.py $BOT_TOKEN $CHANNEL_ID "$TEXT"
             let "last_count=0"
         fi
